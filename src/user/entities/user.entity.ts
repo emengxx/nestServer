@@ -1,18 +1,35 @@
+/*
+ * @Author: your name
+ * @Date: 2021-11-07 15:02:44
+ * @LastEditTime: 2021-11-07 23:23:27
+ * @LastEditors: your name
+ * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
+ * @FilePath: /auth-server/src/user/entities/user.entity.ts
+ */
 
-import { UserInterface } from "src/interface/userInterface";
-import { Column, Entity, PrimaryGeneratedColumn, PrimaryColumn, UpdateDateColumn, CreateDateColumn } from "typeorm";
+import { UserInterface } from '@switchit/nestjs-oauth2-server';
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  PrimaryColumn,
+  UpdateDateColumn,
+  CreateDateColumn,
+} from 'typeorm';
 
 @Entity({
   orderBy: {
-    userName: "ASC",
-    id: "DESC"
-  }
+    username: 'ASC',
+    id: 'DESC',
+  },
 })
 export class User implements UserInterface {
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
   @Column()
-  userName: string;
+  username: string;
+  @Column()
+  email: string;
   @Column()
   password: string;
   @PrimaryColumn()
@@ -21,5 +38,4 @@ export class User implements UserInterface {
   updateTime: string;
   @CreateDateColumn()
   createTime: string;
-
 }
