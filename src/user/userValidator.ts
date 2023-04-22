@@ -7,23 +7,25 @@
  * @FilePath: /auth-server/src/oauth2/userValidator.ts
  */
 import { Injectable } from '@nestjs/common';
-import {
-  InvalidUserException,
-  UserValidatorInterface,
-} from '@switchit/nestjs-oauth2-server';
+// import {
+//   InvalidUserException,
+//   UserValidatorInterface,
+// } from '@switchit/nestjs-oauth2-server';
 
 import { User } from 'src/user/entities/user.entity';
 import { UserService } from './user.service';
 
 @Injectable()
-export class UserValidator implements UserValidatorInterface {
-  // constructor(private readonly userService: UserService) {}
+export class UserValidator {
+  constructor(private readonly userService: UserService) {}
 
   async validate(username, password): Promise<User> {
-    // const user = this.userService.validator(username, password);
-    // if (user) {
-    //   return user;
-    // }
-    throw InvalidUserException.withUsernameAndPassword(username, password);
+    const user = this.userService.validator(username, password);
+    if (user) {
+      return user;
+    } else {
+      throw new Error('用户名或密码错误');
+    }
+    // throw InvalidUserException.withUsernameAndPassword(username, password);
   }
 }

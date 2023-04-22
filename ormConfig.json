@@ -5,7 +5,10 @@
   "username": "root",
   "password": "He5031063",
   "database": "backend",
-  "entities": ["dist/**/*.entity{.ts,.js}","node_modules/@switchit/**/*.entity.js"],
+  "entities": [
+    "dist/**/*.entity{.ts,.js}",
+    "node_modules/@switchit/**/*.entity.js"
+  ],
   "synchronize": true,
-  "autoLoadEntities":true
+  "autoLoadEntities": true
 }

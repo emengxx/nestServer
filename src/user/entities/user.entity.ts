@@ -7,7 +7,6 @@
  * @FilePath: /auth-server/src/user/entities/user.entity.ts
  */
 
-import { UserInterface } from '@switchit/nestjs-oauth2-server';
 import {
   Column,
   Entity,
@@ -23,14 +22,14 @@ import {
     id: 'DESC',
   },
 })
-export class User implements UserInterface {
+export class User {
   @PrimaryGeneratedColumn()
   id: string;
-  @Column()
+  @Column({length:100})
   username: string;
-  @Column()
+  @Column({length:100})
   email: string;
-  @Column()
+  @Column({length:100})
   password: string;
   @PrimaryColumn()
   userId: string;

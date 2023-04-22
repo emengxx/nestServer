@@ -6,37 +6,15 @@
  * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
  * @FilePath: /auth-server/src/app.module.ts
  */
-import { CqrsModule } from '@nestjs/cqrs';
+
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
-import { Oauth2Module } from '@switchit/nestjs-oauth2-server';
-
-import { UserValidator } from './user/userValidator';
-import { UserLoader } from './user/userLoader';
 
 @Module({
-  imports: [
-    // CqrsModule,
-
-    UserModule,
-    TypeOrmModule.forRoot(),
-
-    Oauth2Module.forRoot({
-      userLoader: new UserLoader(),
-      userValidator: new UserValidator(),
-    }),
-    // Oauth2Module.forRootAsync({
-    //   imports: [UserModule],
-    //   useFactory: async (userValidator, userLoader) => ({
-    //     userValidator,
-    //     userLoader,
-    //   }),
-    //   inject: [UserValidator, UserLoader],
-    // }),
-  ],
+  imports: [UserModule, TypeOrmModule.forRoot()],
   controllers: [AppController],
   providers: [AppService],
 })

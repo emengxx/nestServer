@@ -12,14 +12,10 @@ import { Module } from '@nestjs/common';
 import { UserService } from './user.service';
 import { UserController } from './user.controller';
 import { UserValidator } from './userValidator';
-import { UserLoader } from './userLoader';
 
 @Module({
-  // imports: [TypeOrmModule.forFeature([User])],
-  // controllers: [UserController],
-  // providers: [UserService, UserValidator, UserLoader],
-  providers: [UserValidator, UserLoader],
-
-  exports: [UserValidator, UserLoader],
+  imports: [TypeOrmModule.forFeature([User])],
+  controllers: [UserController],
+  providers: [UserService, UserValidator],
 })
 export class UserModule {}
