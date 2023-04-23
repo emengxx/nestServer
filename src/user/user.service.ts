@@ -1,11 +1,3 @@
-/*
- * @Author: your name
- * @Date: 2021-11-07 15:02:44
- * @LastEditTime: 2021-11-07 23:55:08
- * @LastEditors: Please set LastEditors
- * @Description: 打开koroFileHeader查看配置 进行设置: https://github.com/OBKoro1/koro1FileHeader/wiki/%E9%85%8D%E7%BD%AE
- * @FilePath: /auth-server/src/user/user.service.ts
- */
 import { User } from './entities/user.entity';
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -30,25 +22,27 @@ export class UserService {
     return this.usersRepository.save(user);
   }
 
-  findAll(ids?: number[]): Promise<User[]> {
+  findAll(ids?: string[]): Promise<User[]> {
     return ids
       ? this.usersRepository.findByIds(ids)
       : this.usersRepository.find();
   }
 
-  findOne(id: number): Promise<User> {
-    return this.usersRepository.findOne(id);
+  findOne(id: string): Promise<User> {
+    return this.usersRepository.findOne({ where: { id } });
   }
   findOneByUserId(userId: string): Promise<User> {
-    return this.usersRepository.findOne({ userId });
+    return this.usersRepository.findOneBy({ userId });
   }
 
-  update(id: number, updateUserDto: UpdateUserDto) {
-    return `This action updates a #${id} user`;
+  update(id: string, updateUserDto: UpdateUserDto) {
+    // 更新用户信息
+    return this.usersRepository.update(id, updateUserDto);
   }
 
   validator(username: string, password: string) {
-    return this.usersRepository.findOne({ username, password });
+    return this.usersRepository.findOne({ where: { username, password } });
+    // return this.usersRepository.exist({ username, password });
   }
 
   async remove(id: number): Promise<void> {

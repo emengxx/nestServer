@@ -25,11 +25,11 @@ import {
 export class User {
   @PrimaryGeneratedColumn()
   id: string;
-  @Column({length:100})
+  @Column({ length: 100 })
   username: string;
-  @Column({length:100})
+  @Column({ length: 100 })
   email: string;
-  @Column({length:100})
+  @Column({ length: 100 })
   password: string;
   @PrimaryColumn()
   userId: string;
