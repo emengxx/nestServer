@@ -9,11 +9,16 @@
  * Last Modified: Sun Nov 07 2021
  */
 
-import { Module } from '@nestjs/common';
+import {
+  ClassSerializerInterceptor,
+  Module,
+  ValidationPipe,
+} from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
+import { APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 
 @Module({
   imports: [
@@ -30,6 +35,24 @@ import { UserModule } from './user/user.module';
     }),
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      //管道 用于验证数据 例如：验证用户是否存在
+      provide: APP_PIPE,
+      useFactory: () => {
+        return new ValidationPipe({
+          whitelist: true, //过滤掉不符合验证规则的数据
+          forbidNonWhitelisted: true, //当有不符合验证规则的数据时，抛出异常
+          transform: true, //自动转换数据类型
+        });
+      },
+    },
+    {
+      // 序列化
+      provide: APP_INTERCEPTOR,
+      useClass: ClassSerializerInterceptor,
+    },
+  ],
 })
 export class AppModule {}

@@ -4,7 +4,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
 import { Repository } from 'typeorm';
-import { randomUUID } from 'crypto';
+import * as md5 from 'md5';
 
 @Injectable()
 export class UserService {
@@ -15,10 +15,8 @@ export class UserService {
 
   create(createUserDto: CreateUserDto): Promise<User> {
     const user = new User();
-    const uuid = randomUUID();
     user.username = createUserDto.username;
-    user.password = createUserDto.password;
-    user.userId = uuid;
+    user.password = md5(createUserDto.password);
     return this.usersRepository.save(user);
   }
 

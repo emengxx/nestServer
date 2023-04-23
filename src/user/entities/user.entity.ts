@@ -7,34 +7,29 @@
  * @FilePath: /auth-server/src/user/entities/user.entity.ts
  */
 
-import {
-  Column,
-  Entity,
-  PrimaryGeneratedColumn,
-  PrimaryColumn,
-  UpdateDateColumn,
-  CreateDateColumn,
-} from 'typeorm';
+import { Column, Entity, Generated, PrimaryColumn } from 'typeorm';
+import { ApiProperty } from '@nestjs/swagger';
+import { BaseEntity } from 'src/common/database/baseEntity';
+import { Exclude } from 'class-transformer';
 
 @Entity({
   orderBy: {
     username: 'ASC',
-    id: 'DESC',
+    updateTime: 'DESC',
   },
 })
-export class User {
-  @PrimaryGeneratedColumn()
-  id: string;
+export class User extends BaseEntity {
+  @ApiProperty({ description: '用户名' })
   @Column({ length: 100 })
   username: string;
-  @Column({ length: 100 })
+  @ApiProperty({ description: '邮箱' })
+  @Column({ length: 100, nullable: true })
   email: string;
   @Column({ length: 100 })
+  @Exclude()
   password: string;
   @PrimaryColumn()
+  @Generated('uuid')
+  @ApiProperty({ description: '用户id' })
   userId: string;
-  @UpdateDateColumn()
-  updateTime: string;
-  @CreateDateColumn()
-  createTime: string;
 }
